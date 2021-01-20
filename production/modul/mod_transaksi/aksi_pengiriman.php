@@ -46,10 +46,63 @@ elseif ($module=='pengiriman' AND $act=='diterima'){
       echo "<script>alert('Gagal menyimpan data !');history.go(-1)</script>";
     }
   
+}
+
+elseif ($module=='pengiriman' AND $act=='komplain'){
+
+  $lokasi_file    = $_FILES['fupload']['tmp_name'];
+  $tipe_file      = $_FILES['fupload']['type'];
+  $nama_file      = $_FILES['fupload']['name'];
+  $acak           = rand(1,99);
+  $nama_file_unik = $acak.$nama_file; 
   
+  $id    = $_POST['id'];
+  $id_komplain    = $_POST['id_komplain'];
+  $jenis_komplain    = $_POST['jenis_komplain'];
+  $keterangan    = $_POST['keterangan'];
+  $status   = 'Menunggu Solusi';
+  $login=mysql_query("SELECT * FROM pembeli WHERE email='$_SESSION[email]'");
+  $r=mysql_fetch_array($login);
   
+    if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png"){
+    echo "<script>alert('Upload Gagal, Pastikan File yang di Upload bertipe *.JPG atau *.PNG !');history.go(-1)</script>";
+    }
+    else{
+    UploadKomplain($nama_file_unik);
+    $Q=mysql_query("INSERT INTO komplain (id_komplain, no_invoice, jenis_komplain, keterangan, bukti_komplain, status, id_pembeli) VALUES ('$id_komplain', '$id', '$jenis_komplain', '$keterangan', '$nama_file_unik', '$status', '$r[id_pembeli]')");
+    mysql_query("UPDATE orders SET status_order='Komplain' WHERE no_invoice='$id'");
+    
+    if($Q) {
+      header('location:../../media.php?module='.$module);
+    }
+    else{
+      echo "<script>alert('Gagal menyimpan data !');history.go(-1)</script>";
+    }
   
   }
+
+}
+
+elseif ($module=='pengiriman' AND $act=='komplain-konfirm'){
+  
+  $id    = $_POST['id'];
+  $id_komplain    = $_POST['id_komplain'];
+  $jenis_komplain    = $_POST['jenis_komplain'];
+  $keterangan2    = $_POST['keterangan2'];
+  $solusi    = $_POST['solusi'];
+  $status   = 'Selesai';
+
+    $Q=mysql_query("UPDATE komplain SET status='$status', keterangan2='$keterangan2', solusi='$solusi' where id_komplain='$id_komplain'");
+    mysql_query("UPDATE orders SET status_order='Komplain Selesai' WHERE no_invoice='$id'");
+    
+    if($Q) {
+      header('location:../../media.php?module=history_komplain');
+    }
+    else{
+      echo "<script>alert('Gagal menyimpan data !');history.go(-1)</script>";
+    }
+
+}
 
 // Update perangkatdesa
 elseif ($module=='pembayaran' AND $act=='tolak'){

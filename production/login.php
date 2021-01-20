@@ -1,5 +1,6 @@
 <?php
 error_reporting(0);
+include "../config/koneksi.php";
 ?>
 
 <!DOCTYPE html>
@@ -74,7 +75,18 @@ error_reporting(0);
                 <input type="text" class="form-control" name="nama_lengkap" placeholder="Masukkan Nama Lengkap" required="" />
               </div>
               <div>
-                <input type="text" class="form-control" name="no_hp" placeholder="Masukkan Nomor HP" required="" />
+                <input type="text" class="form-control" name="no_hp" maxlength="16" placeholder="Masukkan Nomor HP" required="" />
+              </div>
+              <div class="form-group">                    
+                  <select id="id_kota" name="id_kota" class="form-control" required>
+                    <option value="">-- Pilih Kota / Kabupaten --</option>
+                    <?php
+                    $tampil=mysql_query("SELECT * FROM kota ORDER BY id_kota");
+                    while($r=mysql_fetch_array($tampil)){
+                    echo"<option value=$r[id_kota]>$r[nama_kota]</option>";
+                    }
+                    ?>
+                  </select>
               </div>
               <div>
                 <textarea type="text" class="form-control mb-3" name="alamat" placeholder="Masukkan Alamat Lengkap" required=""></textarea>

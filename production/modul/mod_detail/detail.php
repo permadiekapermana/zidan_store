@@ -41,7 +41,7 @@ echo "<div class='clearfix'></div>
                   <h2 class='center'>Detail Pesanan Nomor Invoice : $_GET[id]</h2>
                   <div class='x_content'>"; ?>
                     <?php
-                    $invoice  = mysql_query("SELECT * FROM orders");
+                    $invoice  = mysql_query("SELECT * FROM orders WHERE no_invoice='$_GET[id]'");
                     $i        = mysql_fetch_array($invoice);
                     $pembeli  = mysql_query("SELECT * FROM pembeli WHERE id_pembeli='$i[id_pembeli]'");
                     $p        = mysql_fetch_array($pembeli);

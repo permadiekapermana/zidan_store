@@ -35,7 +35,7 @@ echo "<div class='clearfix'></div>
               <div class='col-md-12 col-sm-12 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2>Data Pesanan <small>Daftar Data Pesanan</small></h2>
+                    <h2>Riwayat Komplain </h2>
                     <div class='clearfix'></div>
                   </div>
                   <div class='x_content'>
@@ -48,6 +48,7 @@ echo "<div class='clearfix'></div>
 						<th width='5%'>No.</th>
               <th>Nomor Invoice</th>
               <th>Status Order</th>
+              <th>Status Komplain</th>
               <th>Tgl Order</th>
               <th>Tgl Bayar</th>
               <th>Bukti Bayar</th>
@@ -59,14 +60,21 @@ echo "<div class='clearfix'></div>
 
                       <tbody>";
             //$tampil = mysql_query("SELECT * FROM perangkatdesa, jabatan, users where perangkatdesa.id_user=users.id_user and perangkatdesa.id_jabatan=jabatan.id_jabatan  ORDER BY perangkatdesa.id_perangkatdesa DESC");
-            if($_SESSION['hak_akses']=='Penjual'){
-            $penjual  = mysql_query("SELECT * FROM penjual WHERE email='$_SESSION[email]'");
-            $p        = mysql_fetch_array($penjual);
-            $tampil = mysql_query("SELECT * FROM orders WHERE id_penjual='$p[id_penjual]' AND status_order = 'Pesanan Diproses' ORDER BY no_invoice ASC");
-            }
-            else{
-              $tampil = mysql_query("SELECT * FROM orders INNER JOIN pembeli ON orders.id_pembeli=pembeli.id_pembeli WHERE email='$_SESSION[email]' AND status_order = 'Menunggu Verifikasi Admin' OR status_order = 'Pesanan Diproses' ORDER BY no_invoice ASC");
-            }
+            if($_SESSION['hak_akses']=='Pembeli'){
+              $pembeli  = mysql_query("SELECT * FROM pembeli WHERE email='$_SESSION[email]'");
+              $p        = mysql_fetch_array($pembeli);
+              $tampil = mysql_query("SELECT * FROM orders INNER JOIN komplain ON orders.no_invoice=komplain.no_invoice WHERE orders.id_pembeli='$p[id_pembeli]' AND status_order = 'Komplain Selesai'
+               ORDER BY orders.no_invoice ASC");
+              // elseif($_SESSION['hak_akses']=='Pembeli'){
+              //   $pembeli  = mysql_query("SELECT * FROM pembeli WHERE email='$_SESSION[email]'");
+              //   $p        = mysql_fetch_array($pembeli);
+              //   $tampil = mysql_query("SELECT * FROM orders WHERE id_pembeli='$p[id_pembeli]' AND (status_order = 'Selesai' OR status_order = 'Ditolak')
+              //    ORDER BY no_invoice ASC");
+              //   }
+              }else{
+                $tampil = mysql_query("SELECT * FROM orders INNER JOIN komplain ON orders.no_invoice=komplain.no_invoice WHERE status_order = 'Komplain Selesai'
+                 ORDER BY orders.no_invoice ASC");
+              }
   
     $no = 1;
     while($r=mysql_fetch_array($tampil)){
@@ -75,6 +83,7 @@ echo "<div class='clearfix'></div>
 						  <td width='5%' align='center'>$no.</td>
               <td>$r[no_invoice]</td>
               <td>$r[status_order]</td>
+              <td>$r[status]</td>
               <td>$r[tgl_order]</td>
               <td width='10%'>";
                                             if($r['tgl_bayar']==''){
@@ -107,6 +116,7 @@ echo "<div class='clearfix'></div>
                                             </td>
               <td width='10%'>
                 <a href='?module=detail&id=$r[no_invoice]' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i> Detail</a>
+                <a href='?module=komplain&act=detail_komplain&id=$r[no_invoice]' class='btn btn-danger btn-xs'><i class='fa fa-pencil'></i> Komplain</a>
               </td>
 										</tr>";
 						$no++;
@@ -121,6 +131,62 @@ echo "<div class='clearfix'></div>
 
 			  
   break;
+
+case "detail_komplain":
+  echo "<div class='clearfix'></div>
+
+  <div class='row'>
+    <div class='col-md-12 col-sm-12 col-xs-12'>
+      <div class='x_panel'>
+        <div class='x_title'>
+          <h2>Detail Komplain Pesanan</h2>
+          <div class='clearfix'></div>
+        </div>
+        <h2 class='center'>Detail Komplain Pesanan Nomor Invoice : $_GET[id]</h2>
+        <div class='x_content'>"; ?>
+          <?php
+          $invoice  = mysql_query("SELECT * FROM orders INNER JOIN komplain ON orders.no_invoice=komplain.no_invoice WHERE orders.no_invoice='$_GET[id]'");
+          $i        = mysql_fetch_array($invoice);
+          $pembeli  = mysql_query("SELECT * FROM pembeli WHERE id_pembeli='$i[id_pembeli]'");
+          $p        = mysql_fetch_array($pembeli);
+          ?>
+          <!-- start form for validation -->
+          <form action="<?php echo"$aksi?module=checkout&act=input"; ?>" method="POST" id="demo-form" data-parsley-validate>
+            <label for="fullname">ID Komplain :</label>
+            <input type="text" id="fullname" value="<?php echo"$i[id_komplain]"; ?>" class="form-control" name="fullname" disabled /> <br>
+
+            <label for="email">Nomor Invoice :</label>
+            <input type="email" id="email" class="form-control" value="<?php echo"$i[no_invoice]"; ?>" name="email" data-parsley-trigger="change" disabled /> <br>
+
+            <label for="nama_penerima">Jenis Komplain :</label>
+            <input type="text" id="nama_penerima" class="form-control" value="<?php echo"$i[jenis_komplain]"; ?>" name="nama_penerima" data-parsley-trigger="change" disabled /> <br>
+
+            <label for="alamat">Keterangan :</label>
+                <textarea id="alamat" required="required" class="form-control" name="alamat" disabled><?php echo"$i[keterangan]"; ?></textarea>
+
+                <br/>
+            <label for="nama_penerima">Status :</label>
+            <input type="text" id="nama_penerima" class="form-control" value="<?php echo"$i[status]"; ?>" name="nama_penerima" data-parsley-trigger="change" disabled /> <br>
+            <label for="nama_penerima">Solusi :</label>
+            <input type="text" id="nama_penerima" class="form-control" value="<?php echo"$i[solusi]"; ?>" name="nama_penerima" data-parsley-trigger="change" disabled /> <br>
+            <label for="alamat">Keterangan Solusi :</label>
+                <textarea id="alamat" required="required" class="form-control" name="alamat" disabled><?php echo"$i[keterangan2]"; ?></textarea>
+
+                <br/>
+                <!-- <span>* Mohon pastikan kembali order anda dengan benar sebelum checkout. Data yang sudah dicheckout tidak dapat diubah.</span> <br /> <br>
+                <button type="submit" class="btn btn-primary">Lanjut Pembayaran</button> -->
+
+          
+          <!-- end form for validations -->
+        <?php
+        echo"
+        </div>
+      </div>
+    </div>
+</div>
+";
+  break;
+
   case "tambahkategori":
   echo "
 <form method='POST' action='$aksi?module=kategori&act=input'  enctype='multipart/form-data' id='demo-form2' data-parsley-validate class='form-horizontal form-label-left' >

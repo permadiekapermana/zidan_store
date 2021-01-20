@@ -11,6 +11,17 @@ function UploadProduk($fupload_name){
 
 }
 
+function UploadKomplain($fupload_name){
+  //direktori banner
+  $vdir_upload = "../../upload/komplain/";
+  $vfile_upload = $vdir_upload . $fupload_name;
+
+  //Simpan gambar dalam ukuran sebenarnya
+  move_uploaded_file($_FILES["fupload"]["tmp_name"], $vfile_upload);
+
+
+}
+
 function UploadBukti($fupload_name){
   //direktori banner
   $vdir_upload = "../../upload/bukti/";

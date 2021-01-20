@@ -9,13 +9,13 @@ session_start();
 }
 else{
 
-$pel="KTGR.";
+$pel="COMP.";
 $y=substr($pel,0,4);
-$query=mysql_query("SELECT * FROM kategori WHERE substr(id_kategori,1,4)='$y' ORDER BY id_kategori desc limit 0,1");
+$query=mysql_query("SELECT * FROM komplain WHERE substr(id_komplain,1,4)='$y' ORDER BY id_komplain desc limit 0,1");
 $row=mysql_num_rows($query);
 $data=mysql_fetch_array($query);
 if ($row>0){
-$no=substr($data['id_kategori'],-6)+1;}
+$no=substr($data['id_komplain'],-6)+1;}
 else{
 $no=1;
 }
@@ -112,7 +112,9 @@ echo "<div class='clearfix'></div>
               <td width='10%'>";
                 if($_SESSION['hak_akses']=='Pembeli' AND $r['status_order']=='Pesanan Dikirim'){
                 echo"
-                <a href='?module=detail&id=$r[no_invoice]' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i> Detail</a><a href='$aksi?module=pengiriman&act=selesai&id=$r[no_invoice]' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Selesai</a>";
+                <a href='?module=detail&id=$r[no_invoice]' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i> Detail</a>
+                <a href='?module=pengiriman&act=komplain&id=$r[no_invoice]' class='btn btn-danger btn-xs'><i class='fa fa-pencil'></i> Komplain</a>
+                <a href='$aksi?module=pengiriman&act=selesai&id=$r[no_invoice]' class='btn btn-success btn-xs'><i class='fa fa-check'></i> Selesai</a>";
                 }elseif($_SESSION['hak_akses']=='Admin' AND $r['status_order']=='Pesanan Diterima'){
                   echo"
                   <a href='?module=detail&id=$r[no_invoice]' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i> Detail</a><a href='$aksi?module=pengiriman&act=diterima&id=$r[no_invoice]' class='btn btn-success btn-xs' onClick=\"return confirm('Yakin ingin selesaikan transaksi ? Data yang diinput tidak dapat diubah !')\"><i class='fa fa-check'></i> Selesai</a>";
@@ -135,32 +137,55 @@ echo "<div class='clearfix'></div>
 
 			  
   break;
-  case "tambahkategori":
+  case "komplain":
   echo "
-<form method='POST' action='$aksi?module=kategori&act=input'  enctype='multipart/form-data' id='demo-form2' data-parsley-validate class='form-horizontal form-label-left' >
+<form method='POST' action='$aksi?module=pengiriman&act=komplain'  enctype='multipart/form-data' id='demo-form2' data-parsley-validate class='form-horizontal form-label-left' >
 
             <div class='row'>
               <div class='col-md-12 col-sm-12 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2>Data Kategori <small>Tambah Data Kategori</small></h2>
+                    <h2>Komplain Produk</h2>
                     <div class='clearfix'></div>
                   </div>
                   <div class='x_content'>                    
                   <div class='form-group'>
-                    <label class='control-label col-md-3 col-sm-3 col-xs-12' for='id_kategori'>ID Kategori <span class='required'>*</span>
+                    <label class='control-label col-md-3 col-sm-3 col-xs-12' for='no_invoice'>Nomor Invoice <span class='required'>*</span>
                     </label>
                   <div class='col-md-6 col-sm-6 col-xs-12'>
-                    <input type='text' name='id_kategori' id='id_kategori' value='$nopel' disabled class='form-control col-md-7 col-xs-12'>
-                    <input type='hidden' name='id_kategori' id='nama' value='$nopel' required='required' class='form-control col-md-7 col-xs-12'>
+                    <input type='text' name='no_invoice' value='$_GET[id]' disabled class='form-control col-md-7 col-xs-12'>
+                    <input type='hidden' name='id' id='id' value='$_GET[id]' required='required' class='form-control col-md-7 col-xs-12'>
                   </div>               
                   </div>
                   <div class='form-group'>
-                    <label class='control-label col-md-3 col-sm-3 col-xs-12' for='nama_kategori'>Nama Kategori <span class='required'>*</span>
+                    <input value='$nopel' name='id_komplain' type='hidden'>
+                    <label class='control-label col-md-3 col-sm-3 col-xs-12' for='keterangan'>Keterangan Komplain <span class='required'>*</span>
                     </label>
                   <div class='col-md-6 col-sm-6 col-xs-12'>
-                    <input type='text' name='nama_kategori' id='nama_kategori' placeholder='Masukkan Nama Kategori' class='form-control col-md-7 col-xs-12'>
+                    <select name='jenis_komplain' class='form-control' required>
+                      <option value=''>-- Pilih Jenis Komplain --</option>
+                      <option value='Barang belum sampai'>Barang belum sampai</option>
+                      <option value='Pesanan tidak lengkap'>Pesanan tidak lengkap</option>
+                      <option value='Produk tidak sesuai dengan deskripsi'>Produk tidak sesuai dengan deskripsi</option>
+                      <option value='Lainnya'>Lainnya</option>
+                    </select>
                   </div>               
+                  </div>
+                  <div class='form-group'>
+                    <label class='control-label col-md-3 col-sm-3 col-xs-12' for='keterangan'>Keterangan Komplain <span class='required'>*</span>
+                    </label>
+                  <div class='col-md-6 col-sm-6 col-xs-12'>
+                    <textarea name='keterangan' id='keterangan' rows='10' style='height:100%;' class='form-control col-md-7 col-xs-12' placeholder='Masukkan Keterangan Komplain (Jelaskan dengan detail, jika diperlukan sertakan video unboxing yang telah diupload di google drive dan sertakan link pada kolom ini)'></textarea>
+                  </div>               
+                  </div>
+                  <div class='form-group'>
+                    <label class='control-label col-md-3 col-sm-3 col-xs-12' for='fupload'>Bukti Komplain <span class='required'>*</span>
+                    </label>
+                  <div class='col-md-6 col-sm-6 col-xs-12'>
+                    <input type='file' name='fupload' id='fupload' class='form-control col-md-7 col-xs-12' required>
+                    <br>
+                    <h5>File Gambar harus dalam format .jpg atau .png dan ukuran maksimum 500kb</h5>
+                  </div>
                   </div>        
                   <div class='ln_solid'></div>
                     <div class='form-group'>

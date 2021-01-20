@@ -40,7 +40,7 @@ echo "<div class='clearfix'></div>
                   </div>
                   <div class='x_content'>"; ?>
                     <?php
-                    $pembeli  = mysql_query("SELECT * FROM pembeli WHERE email='$_SESSION[email]'");
+                    $pembeli  = mysql_query("SELECT * FROM pembeli INNER JOIN kota ON pembeli.id_kota=kota.id_kota WHERE email='$_SESSION[email]'");
                     $p        = mysql_fetch_array($pembeli);
                     ?>
                     <!-- start form for validation -->
@@ -57,7 +57,7 @@ echo "<div class='clearfix'></div>
                       <label for="no_penerima">Nomor HP Penerima :</label>
                       <input type="text" id="no_penerima" class="form-control" value="<?php echo"$p[no_hp]"; ?>" name="no_penerima" data-parsley-trigger="change" required /> <br>
 
-                      <label for="id_kota">Kota/Kabupaten :</label>
+                      <!-- <label for="id_kota">Kota/Kabupaten :</label>
                           <select id="id_kota" name="id_kota" class="form-control" required>
                             <option value="">-- Pilih Kota / Kabupaten --</option>
                             <?php
@@ -66,7 +66,10 @@ echo "<div class='clearfix'></div>
                             echo"<option value=$r[id_kota]>$r[nama_kota]</option>";
                             }
                             ?>
-                          </select> <br>
+                          </select> <br> -->
+                      <label for="id_kota">Kota/Kabupaten Penerima :</label>
+                      <input type="text" value="<?php echo" $p[id_kota]"; ?>" name="id_kota" hidden>
+                      <input type="text" id="id_kota" class="form-control" value="<?php echo" $p[nama_kota]"; ?>" disabled> <br>
 
                       <label for="alamat">Alamat :</label>
                           <textarea id="alamat" required="required" class="form-control" name="alamat" required><?php echo"$p[alamat]"; ?></textarea>

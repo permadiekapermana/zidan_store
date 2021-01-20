@@ -43,6 +43,7 @@ $as           = $_POST['as'];
 $nomor_rekening = $_POST['nomor_rekening'];
 $nama_toko    = $_POST['nama_toko'];
 $alamat       = $_POST['alamat'];
+$id_kota       = $_POST['id_kota'];
 
 // Memastikan inputan pada kolom pada input hanya angka dan huruf saja, bukan simbol
 if (!ctype_alnum($username) OR !ctype_alnum($password)){
@@ -62,7 +63,7 @@ $ketemu=mysql_num_rows($login);
   }
   elseif ($as=='Pembeli'){
   $query=mysql_query("INSERT INTO users (email, password, hak_akses, aktif) VALUES ('$email', '$password', 'Pembeli', 1)");
-  $query=mysql_query("INSERT INTO pembeli (id_pembeli, email, nama_lengkap, no_hp, alamat) VALUES ('$nopel', '$email', '$nama_lengkap', '$no_hp', '$alamat')");
+  $query=mysql_query("INSERT INTO pembeli (id_pembeli, email, id_kota, nama_lengkap, no_hp, alamat) VALUES ('$nopel', '$email', '$id_kota', '$nama_lengkap', '$no_hp', '$alamat')");
   echo"<script>alert('Anda berhasil terdaftar di Sistem!');history.go(-1);</script>";
   }  
   elseif ($as=='Penjual'){

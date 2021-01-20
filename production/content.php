@@ -67,9 +67,19 @@ elseif ($_GET[module]=='pengiriman'){
    include "modul/mod_transaksi/pengiriman.php";
  }
 }
+elseif ($_GET[module]=='komplain'){
+  if ($_SESSION['hak_akses']=='Pembeli' OR $_SESSION['hak_akses']=='Admin'){
+   include "modul/mod_transaksi/komplain.php";
+ }
+}
 elseif ($_GET[module]=='history'){
   if ($_SESSION['hak_akses']=='Penjual' OR $_SESSION['hak_akses']=='Pembeli' OR $_SESSION['hak_akses']=='Admin'){
    include "modul/mod_transaksi/history.php";
+ }
+}
+elseif ($_GET[module]=='history_komplain'){
+  if ($_SESSION['hak_akses']=='Pembeli' OR $_SESSION['hak_akses']=='Admin'){
+   include "modul/mod_transaksi/history-komplain.php";
  }
 }
 elseif ($_GET[module]=='barang-view'){
