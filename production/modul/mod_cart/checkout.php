@@ -55,21 +55,25 @@ echo "<div class='clearfix'></div>
                       <input type="text" id="nama_penerima" class="form-control" value="<?php echo"$p[nama_lengkap]"; ?>" name="nama_penerima" data-parsley-trigger="change" required /> <br>
 
                       <label for="no_penerima">Nomor HP Penerima :</label>
-                      <input type="text" id="no_penerima" class="form-control" value="<?php echo"$p[no_hp]"; ?>" name="no_penerima" data-parsley-trigger="change" required /> <br>
+                      <input type="text" id="no_penerima" class="form-control" value="<?php echo"$p[no_hp]"; ?>" maxlength="16" name="no_penerima" data-parsley-trigger="change" required /> <br>
 
-                      <!-- <label for="id_kota">Kota/Kabupaten :</label>
-                          <select id="id_kota" name="id_kota" class="form-control" required>
-                            <option value="">-- Pilih Kota / Kabupaten --</option>
-                            <?php
-                            $tampil=mysql_query("SELECT * FROM kota ORDER BY id_kota");
-                            while($r=mysql_fetch_array($tampil)){
-                            echo"<option value=$r[id_kota]>$r[nama_kota]</option>";
-                            }
-                            ?>
-                          </select> <br> -->
-                      <label for="id_kota">Kota/Kabupaten Penerima :</label>
-                      <input type="text" value="<?php echo" $p[id_kota]"; ?>" name="id_kota" hidden>
-                      <input type="text" id="id_kota" class="form-control" value="<?php echo" $p[nama_kota]"; ?>" disabled> <br>
+                      <label for="id_kota">Kota/Kabupaten :</label>
+                      <select name='id_kota' class='form-control col-md-7 col-xs-12'>
+                        <?php             
+                        $tampil=mysql_query("SELECT * FROM kota ORDER BY id_kota");
+                        if ($p[id_kota]==0){
+                        echo "<option value='' selected>-- Pilih Kota / Kabupaten --</option>";
+                        }
+                        while($w=mysql_fetch_array($tampil)){
+                        if ($p[id_kota]==$w[id_kota]){
+                          echo "<option value=$w[id_kota] selected>$w[nama_kota]</option>";
+                        }
+                        else{
+                          echo "<option value=$w[id_kota]>$w[nama_kota]</option>";
+                        }
+                        }
+                        ?>
+                      </select> <br>
 
                       <label for="alamat">Alamat :</label>
                           <textarea id="alamat" required="required" class="form-control" name="alamat" required><?php echo"$p[alamat]"; ?></textarea>

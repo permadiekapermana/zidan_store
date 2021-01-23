@@ -155,14 +155,18 @@
                       $total_1 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_penjual='$p[id_penjual]' AND status_order = 'Pesanan Diproses'"));
                       $total_2 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_penjual='$p[id_penjual]' AND status_order = 'Pesanan Dikirim' OR status_order='Pesanan Diterima'"));
                       $total_3 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_penjual='$p[id_penjual]' AND status_order = 'Selesai'"));
+                      $total_4 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_penjual='$p[id_penjual]' AND status_order = 'Komplain'"));
+                      $total_5 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_penjual='$p[id_penjual]' AND status_order = 'Komplain Selesai'"));
                       ?>
                       <li><a href="?module=pesanan">Pesanan Masuk (<?php echo"$total_1"; ?>)</a></li>
                       <li><a href="?module=pengiriman">Pengiriman (<?php echo"$total_2"; ?>)</a></li>
+                      <li><a href="?module=komplain">Komplain (<?php echo"$total_4"; ?>)</a></li> 
                     </ul>
                   </li>
                   <li><a><i class="fa fa-arrow-right"></i> Riwayat Transaksi <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="?module=history">Riwayat Transaksi (<?php echo"$total_3"; ?>)</a></li>
+                      <li><a href="?module=history_komplain">Riwayat Komplain (<?php echo"$total_5"; ?>)</a></li>
                     </ul>
                   </li>
                   <li><a href="#" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out"></i> Log Out</a></li>

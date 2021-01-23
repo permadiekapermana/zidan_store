@@ -68,7 +68,7 @@ elseif ($_GET[module]=='pengiriman'){
  }
 }
 elseif ($_GET[module]=='komplain'){
-  if ($_SESSION['hak_akses']=='Pembeli' OR $_SESSION['hak_akses']=='Admin'){
+  if ($_SESSION['hak_akses']=='Pembeli' OR $_SESSION['hak_akses']=='Admin' OR $_SESSION['hak_akses']=='Penjual'){
    include "modul/mod_transaksi/komplain.php";
  }
 }
@@ -78,7 +78,7 @@ elseif ($_GET[module]=='history'){
  }
 }
 elseif ($_GET[module]=='history_komplain'){
-  if ($_SESSION['hak_akses']=='Pembeli' OR $_SESSION['hak_akses']=='Admin'){
+  if ($_SESSION['hak_akses']=='Pembeli' OR $_SESSION['hak_akses']=='Admin'  OR $_SESSION['hak_akses']=='Penjual'){
    include "modul/mod_transaksi/history-komplain.php";
  }
 }
