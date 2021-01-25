@@ -59,12 +59,6 @@ if ($module=='checkout' AND $act=='input'){
       mysql_query("INSERT INTO orders_detail (no_invoice, id_produk,  jumlah) VALUES ('$kode_jadi_i', '$id_produk[$j]', '$jumlah[$j]')");
       mysql_query("DELETE FROM keranjang WHERE id_pembeli = '$id_pembeli' AND id_produk = '$id_produk[$j]' AND jumlah = '$jumlah[$j]'");
       
-      $rproduk = mysql_query("SELECT * FROM produk where id_produk='$id_produk[$j]'");
-      $rp=mysql_fetch_array($rproduk); 
-
-      $sisa_stok = $rp[stok] - $jumlah[$j];
-
-      mysql_query("UPDATE produk SET stok='$sisa_stok' WHERE id_produk='$id_produk[$j]'");
       
     }
 

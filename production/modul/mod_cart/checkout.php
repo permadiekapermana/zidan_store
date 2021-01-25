@@ -59,7 +59,7 @@ echo "<div class='clearfix'></div>
 
                       <label for="id_kota">Kota/Kabupaten :</label>
                       <select name='id_kota' class='form-control col-md-7 col-xs-12'>
-                        <?php             
+                        <?php
                         $tampil=mysql_query("SELECT * FROM kota ORDER BY id_kota");
                         if ($p[id_kota]==0){
                         echo "<option value='' selected>-- Pilih Kota / Kabupaten --</option>";
