@@ -90,6 +90,10 @@ elseif ($_GET[module]=='detail'){
   include "modul/mod_detail/detail.php";
 
 }
+elseif ($_GET[module]=='thanks'){
+  include "modul/mod_cart/thanks.php";
+
+}
 
 
 

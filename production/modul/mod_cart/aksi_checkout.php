@@ -91,7 +91,8 @@ if ($module=='checkout' AND $act=='input'){
 
     }
     
-    echo "<script>alert('Berhasil menyimpan data pembelian, silahkan melakukan pembayaran!');window.location.href='../../media.php?module=pembayaran';</script>";
+    // echo "<script>alert('Berhasil menyimpan data pembelian, silahkan melakukan pembayaran!');window.location.href='../../media.php?module=pembayaran';</script>";
+    header('location:../../media.php?module=thanks&id='.$kode_jadi_i);
     
 }
 
