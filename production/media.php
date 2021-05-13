@@ -147,6 +147,7 @@
                 <?php } elseif ($_SESSION['hak_akses']=='Penjual' ){ ?> 
                   <ul class="nav side-menu">
                   <li><a href="?module=data_produk"><i class="fa fa-database"></i> Data Produk</a></li>
+                  <li><a href="?module=data_produk"><i class="fa fa-money"></i> Konfirmasi Pembayaran</a></li>
                   <li><a><i class="fa fa-arrow-right"></i> Transaksi <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <?php
@@ -174,6 +175,7 @@
                 <?php } elseif ($_SESSION['hak_akses']=='Pembeli'){ ?> 
                   <ul class="nav side-menu">
                   <li><a href="?module=data_produk"><i class="fa fa-database"></i> Katalog Produk</a></li>
+                  <li><a href="?module=data_produk"><i class="fa fa-money"></i> Konfirmasi Pembayaran</a></li>
                   <li><a><i class="fa fa-arrow-right"></i> Transaksi <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <?php

@@ -121,7 +121,8 @@ echo "<div class='clearfix'></div>
             //$tampil = mysql_query("SELECT * FROM perangkatdesa, jabatan, users where perangkatdesa.id_user=users.id_user and perangkatdesa.id_jabatan=jabatan.id_jabatan  ORDER BY perangkatdesa.id_perangkatdesa DESC");
             $invoice  = mysql_query("SELECT * FROM orders WHERE no_invoice='$_GET[id]'");
             $i        = mysql_fetch_array($invoice);
-            $tampil = mysql_query("SELECT * FROM orders_detail INNER JOIN produk ON orders_detail.id_produk=produk.id_produk INNER JOIN kategori ON produk.id_kategori=kategori.id_kategori WHERE no_invoice='$_GET[id]' AND orders_detail.id_produk IN (SELECT id_produk FROM produk WHERE id_penjual='$i[id_penjual]')");
+            $tampil = mysql_query("SELECT DISTINCT produk.gambar, orders_detail.id_produk, produk.nama_produk, kategori.nama_kategori, produk.nama_produk, orders_detail.jumlah, produk.harga FROM orders_detail INNER JOIN produk ON orders_detail.id_produk=produk.id_produk INNER JOIN kategori ON produk.id_kategori=kategori.id_kategori WHERE no_invoice='$_GET[id]'");
+            // $tampil = mysql_query("SELECT * FROM orders_detail INNER JOIN produk ON orders_detail.id_produk=produk.id_produk INNER JOIN kategori ON produk.id_kategori=kategori.id_kategori WHERE no_invoice='$_GET[id]' AND orders_detail.id_produk IN (SELECT id_produk FROM produk WHERE id_penjual='$i[id_penjual]')");
   
     $no = 1;
     while($r=mysql_fetch_array($tampil)){
