@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 20, 2021 at 02:51 PM
+-- Generation Time: May 13, 2021 at 09:09 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 5.6.39
 
@@ -190,7 +190,9 @@ INSERT INTO `orders` (`no_invoice`, `status_order`, `tgl_order`, `total_tagihan`
 ('INV20201104000000005', 'Menunggu Pembayaran', '2020-11-04', 45000, '14:33:57', NULL, NULL, 'abdul kholik', '0897654320', 'ds.panguragan wetan blok v', 'KOTA.000001', 'benar', 'PMBL.000004', 'PNJL.000003'),
 ('INV20201108000000006', 'Pesanan Diproses', '2020-11-08', 45000, '14:59:16', '2020-11-08', NULL, 'Pembeli', '0896445225', 'Plumbon', 'KOTA.000001', '', 'PMBL.000001', 'PNJL.000003'),
 ('INV20201108000000007', 'Menunggu Pembayaran', '2020-11-08', 45000, '15:08:58', NULL, NULL, 'Pembeli', '0895555343', 'Plumbon', 'KOTA.000003', '', 'PMBL.000001', 'PNJL.000003'),
-('INV20210118000000008', 'Komplain Selesai', '2021-01-18', 25000, '07:58:39', '2021-01-20', '00998', 'Permadi Eka Permana', '6289660771166', 'plumbon 99', 'KOTA.000001', '', 'PMBL.000005', 'PNJL.000003');
+('INV20210118000000008', 'Komplain Selesai', '2021-01-18', 25000, '07:58:39', '2021-01-20', '00998', 'Permadi Eka Permana', '6289660771166', 'plumbon 99', 'KOTA.000001', '', 'PMBL.000005', 'PNJL.000003'),
+('INV20210514000000009', 'Menunggu Pembayaran', '2021-05-14', 400000, '01:48:45', NULL, NULL, 'Permadi Eka Permana', '6289660771166', 'plumbon 99', 'KOTA.000001', '', 'PMBL.000005', 'PNJL.000004'),
+('INV20210514000000009', 'Menunggu Pembayaran', '2021-05-14', 400000, '01:48:45', NULL, NULL, 'Permadi Eka Permana', '6289660771166', 'plumbon 99', 'KOTA.000001', '', 'PMBL.000005', 'PNJL.000005');
 
 -- --------------------------------------------------------
 
@@ -215,7 +217,11 @@ INSERT INTO `orders_detail` (`no_invoice`, `id_produk`, `jumlah`) VALUES
 ('INV20201102000000003', 'PROD.000002', 1),
 ('INV20201102000000003', 'PROD.000001', 1),
 ('INV20210118000000008', 'PROD.000003', 1),
-('INV20210120000000009', 'PROD.000001', 1);
+('INV20210120000000009', 'PROD.000001', 1),
+('INV20210514000000009', 'PROD.000004', 1),
+('INV20210514000000009', 'PROD.000006', 1),
+('INV20210514000000009', 'PROD.000004', 1),
+('INV20210514000000009', 'PROD.000006', 1);
 
 -- --------------------------------------------------------
 
@@ -226,7 +232,6 @@ INSERT INTO `orders_detail` (`no_invoice`, `id_produk`, `jumlah`) VALUES
 CREATE TABLE `pembeli` (
   `id_pembeli` varchar(11) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `id_keranjang` varchar(11) NOT NULL,
   `id_kota` varchar(11) NOT NULL,
   `nama_lengkap` varchar(50) NOT NULL,
   `no_hp` varchar(15) NOT NULL,
@@ -237,12 +242,12 @@ CREATE TABLE `pembeli` (
 -- Dumping data for table `pembeli`
 --
 
-INSERT INTO `pembeli` (`id_pembeli`, `email`, `id_keranjang`, `id_kota`, `nama_lengkap`, `no_hp`, `alamat`) VALUES
-('PMBL.000001', 'pembeli@gmail.com', '', '', 'Pembeli', '089', 'Plumbon'),
-('PMBL.000002', 'zidan@gmail.com', '', '', 'aufazidan', '089506173030', 'ds.panguragan wetan blok v'),
-('PMBL.000003', 'aufazidan@gmail.com', '', '', 'aufazidan', '089506173030', 'ds.panguragan wetan blok v'),
-('PMBL.000004', 'kholik@gmail.com', '', '', 'abdul kholik', '0897654320', 'ds.panguragan wetan blok v'),
-('PMBL.000005', 'permadiekapermana@gmail.com', '', 'KOTA.000001', 'Permadi Eka Permana', '6289660771166', 'plumbon 99');
+INSERT INTO `pembeli` (`id_pembeli`, `email`, `id_kota`, `nama_lengkap`, `no_hp`, `alamat`) VALUES
+('PMBL.000001', 'pembeli@gmail.com', '', 'Pembeli', '089', 'Plumbon'),
+('PMBL.000002', 'zidan@gmail.com', '', 'aufazidan', '089506173030', 'ds.panguragan wetan blok v'),
+('PMBL.000003', 'aufazidan@gmail.com', '', 'aufazidan', '089506173030', 'ds.panguragan wetan blok v'),
+('PMBL.000004', 'kholik@gmail.com', '', 'abdul kholik', '0897654320', 'ds.panguragan wetan blok v'),
+('PMBL.000005', 'permadiekapermana@gmail.com', 'KOTA.000001', 'Permadi Eka Permana', '6289660771166', 'plumbon 99');
 
 -- --------------------------------------------------------
 
@@ -267,7 +272,9 @@ CREATE TABLE `penjual` (
 INSERT INTO `penjual` (`id_penjual`, `email`, `nama_lengkap`, `no_hp`, `alamat`, `nomor_rekening`, `nama_toko`) VALUES
 ('PNJL.000001', 'penjual@gmail.com', 'Penjual', '089', 'Kemlaka', '000', 'Muhidin Store'),
 ('PNJL.000002', 'Doni22@gmail.com', 'Doni', '087342567999', 'Panguragan Blok V Kec. Panguragan Kab. Cirebon', '123456789', 'Donies'),
-('PNJL.000003', 'mufalikha@gmail.com', 'mufalikha', '08985139620', 'ds.panguragan wetan kecamatan panguragan', '1234', 'toko kelapa');
+('PNJL.000003', 'mufalikha@gmail.com', 'mufalikha', '08985139620', 'ds.panguragan wetan kecamatan panguragan', '1234', 'toko kelapa'),
+('PNJL.000004', 'penjual1@gmail.com', 'Penjual 1', '089', 'p', '123', 'Penjual 1'),
+('PNJL.000005', 'penjual2@gmail.com', 'Penjual 2', '089', 'p', '123', 'Penjual 2');
 
 -- --------------------------------------------------------
 
@@ -293,7 +300,10 @@ CREATE TABLE `produk` (
 INSERT INTO `produk` (`id_produk`, `id_kategori`, `id_penjual`, `nama_produk`, `harga`, `stok`, `gambar`, `keterangan`) VALUES
 ('PROD.000001', 'KTGR.000002', 'PNJL.000002', 'Ember', 25000, 12, '42aaa.png', 'Ember anti pecah'),
 ('PROD.000002', 'KTGR.000001', 'PNJL.000001', 'Alumunium', 57000, 5, '36Untitled 1.png', 'Alumunium khusus untuk kanopi'),
-('PROD.000003', 'KTGR.000001', 'PNJL.000003', 'Alumunium', 25000, 4, '36Screenshot (14).png', 'alumunium');
+('PROD.000003', 'KTGR.000001', 'PNJL.000003', 'Alumunium', 25000, 4, '36Screenshot (14).png', 'alumunium'),
+('PROD.000004', 'KTGR.000001', 'PNJL.000004', 'Produk Test 1', 100000, 7, '13WhatsApp Image 2021-05-07 at 1.49.40 PM.jpeg', ''),
+('PROD.000005', 'KTGR.000001', 'PNJL.000004', 'Produk Test 2', 200000, 8, '96screencapture-ptbsp-ddns-net-12892-2021-05-10-16_52_55.png', ''),
+('PROD.000006', 'KTGR.000001', 'PNJL.000005', 'Produk Test 3', 300000, 7, '64Capture.PNG', '');
 
 -- --------------------------------------------------------
 
@@ -319,6 +329,8 @@ INSERT INTO `users` (`email`, `password`, `hak_akses`, `aktif`) VALUES
 ('kholik@gmail.com', '508df4cb2f4d8f80519256258cfb975f', 'Pembeli', '1'),
 ('mufalikha@gmail.com', '48c7be1154efa6bedf27e6e9d55d1104', 'Penjual', '1'),
 ('pembeli@gmail.com', 'a9f8bbb8cb84375f241ce3b9da6219a1', 'Pembeli', '1'),
+('penjual1@gmail.com', '7fede5a7930d9ffafdf87bc536d39312', 'Penjual', '1'),
+('penjual2@gmail.com', '95af899fc2dcb417586755297f7e5950', 'Penjual', '1'),
 ('penjual@gmail.com', '08634230004f9098ef63bfabef63a407', 'Penjual', '1'),
 ('permadiekapermana@gmail.com', 'b69d343badb19f8e0311aa62b844a06c', 'Pembeli', '1'),
 ('zidan@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Pembeli', '1');
@@ -372,7 +384,6 @@ ALTER TABLE `kota`
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
-  ADD PRIMARY KEY (`no_invoice`),
   ADD KEY `id_kota` (`id_kota`),
   ADD KEY `id_pembeli` (`id_pembeli`),
   ADD KEY `id_penjual` (`id_penjual`);
@@ -390,7 +401,6 @@ ALTER TABLE `orders_detail`
 ALTER TABLE `pembeli`
   ADD PRIMARY KEY (`id_pembeli`),
   ADD KEY `email` (`email`),
-  ADD KEY `id_keranjang` (`id_keranjang`),
   ADD KEY `id_kota` (`id_kota`);
 
 --
@@ -429,12 +439,6 @@ ALTER TABLE `admin`
 ALTER TABLE `keranjang`
   ADD CONSTRAINT `keranjang_ibfk_1` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`),
   ADD CONSTRAINT `keranjang_ibfk_2` FOREIGN KEY (`id_pembeli`) REFERENCES `pembeli` (`id_pembeli`);
-
---
--- Constraints for table `konfirm_bayar`
---
-ALTER TABLE `konfirm_bayar`
-  ADD CONSTRAINT `konfirm_bayar_ibfk_1` FOREIGN KEY (`no_invoice`) REFERENCES `orders` (`no_invoice`);
 
 --
 -- Constraints for table `orders`
