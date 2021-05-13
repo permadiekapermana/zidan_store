@@ -61,7 +61,7 @@ echo "<div class='clearfix'></div>
             if($_SESSION['hak_akses']=='Pembeli'){
             $pembeli  = mysql_query("SELECT * FROM pembeli WHERE email='$_SESSION[email]'");
             $p        = mysql_fetch_array($pembeli);
-            $tampil = mysql_query("SELECT DISTINCT(no_invoice), status_order, tgl_order, tgl_bayar FROM orders WHERE id_pembeli='$p[id_pembeli]' AND status_order = 'Menunggu Verifikasi Admin' OR status_order = 'Pesanan Diproses' ORDER BY no_invoice ASC");
+            $tampil = mysql_query("SELECT DISTINCT(no_invoice), status_order, tgl_order, tgl_bayar FROM orders WHERE id_pembeli='$p[id_pembeli]' AND status_order = 'Menunggu Pembayaran' ORDER BY no_invoice ASC");
             }
             else{
               $tampil = mysql_query("SELECT * FROM orders WHERE status_order = 'Menunggu Verifikasi Admin' OR status_order = 'Pesanan Diproses' ORDER BY no_invoice ASC");

@@ -57,6 +57,11 @@ elseif ($_GET[module]=='pembayaran'){
    include "modul/mod_transaksi/pembayaran.php";
  }
 }
+elseif ($_GET[module]=='konfirmasi_pembayaran'){
+  if ($_SESSION['hak_akses']=='Pembeli' OR $_SESSION['hak_akses']=='Admin'){
+   include "modul/mod_transaksi/konfirmasi_pembayaran.php";
+ }
+}
 elseif ($_GET[module]=='pesanan'){
   if ($_SESSION['hak_akses']=='Penjual'){
    include "modul/mod_transaksi/pesanan.php";
