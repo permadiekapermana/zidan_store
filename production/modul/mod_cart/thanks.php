@@ -148,10 +148,22 @@ echo "<div class='clearfix'></div>
                         <td>Ongkos Kirim</td>";                        
                         $kota   = mysql_query("SELECT * FROM kota WHERE id_kota='$i[id_kota]'");
                         $k      = mysql_fetch_array($kota);
+
+                        $sumpenjual   = mysql_query("SELECT * FROM orders WHERE no_invoice='$_GET[id]'");
+                        $spenjual      = mysql_num_rows($sumpenjual);
                         echo"
                         <input type='hidden' value='$total' name='total_tagihan'></input>
                         <input type='hidden' value='$k[ongkir]' name='id_pembeli'></input>
-                        <td colspan='2'>Rp. $k[ongkir]</td>
+                        <td colspan='2'>Rp. $k[ongkir] x $spenjual</td>
+                      </tr>
+                      <tr>
+                        <td colspan='5'></td>
+                        <td>Total Kirim</td>";                        
+                        $total_ongkir = $k[ongkir] * $spenjual;
+                        echo"
+                        <input type='hidden' value='$total' name='total_tagihan'></input>
+                        <input type='hidden' value='$k[ongkir]' name='id_pembeli'></input>
+                        <td colspan='2'>Rp. $total_ongkir</td>
                       </tr>
                       <tr>
                         <td colspan='5'></td>
@@ -169,7 +181,7 @@ echo "<div class='clearfix'></div>
                       <tr>
                         <td colspan='5'></td>
                         <td>Grand Total</td>";                        
-								        $total_all  = $total + $k[ongkir];
+								        $total_all  = $total + $total_ongkir;
                         echo"
                         <input type='hidden' value='$total' name='total_tagihan'></input>
                         <input type='hidden' value='$p[id_pembeli]' name='id_pembeli'></input>

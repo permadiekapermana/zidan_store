@@ -147,6 +147,7 @@
                 <?php } elseif ($_SESSION['hak_akses']=='Penjual' ){ ?> 
                   <ul class="nav side-menu">
                   <li><a href="?module=data_produk"><i class="fa fa-database"></i> Data Produk</a></li>
+                  <li><a href="?module=data_produk"><i class="fa fa-money"></i> Konfirmasi Pembayaran</a></li>
                   <li><a><i class="fa fa-arrow-right"></i> Transaksi <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <?php
@@ -174,18 +175,24 @@
                 <?php } elseif ($_SESSION['hak_akses']=='Pembeli'){ ?> 
                   <ul class="nav side-menu">
                   <li><a href="?module=data_produk"><i class="fa fa-database"></i> Katalog Produk</a></li>
+                  <?php
+                      $pembeli  = mysql_query("SELECT * FROM pembeli WHERE email='$_SESSION[email]'");
+                      $p        = mysql_fetch_array($pembeli);
+                      $total_6 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_pembeli='$p[id_pembeli]' AND  (status_order = 'Menunggu Pembayaran')"));
+                  ?>
+                  <li><a href="?module=konfirmasi_pembayaran"><i class="fa fa-money"></i> Konfirmasi Pembayaran (<?php echo"$total_6"; ?>)</a></li>
                   <li><a><i class="fa fa-arrow-right"></i> Transaksi <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <?php
                       $pembeli  = mysql_query("SELECT * FROM pembeli WHERE email='$_SESSION[email]'");
                       $p        = mysql_fetch_array($pembeli);
-                      $total_1 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_pembeli='$p[id_pembeli]' AND  (status_order = 'Menunggu Pembayaran' OR status_order = 'Pesanan Diproses')"));
+                      $total_1 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_pembeli='$p[id_pembeli]' AND  (status_order = 'Pesanan Diproses')"));
                       $total_2 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_pembeli='$p[id_pembeli]' AND status_order = 'Pesanan Dikirim' OR status_order='Pesanan Diterima'"));
                       $total_3 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_pembeli='$p[id_pembeli]' AND status_order = 'Selesai'"));
                       $total_4 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_pembeli='$p[id_pembeli]' AND status_order = 'Komplain'"));
                       $total_5 = mysql_num_rows(mysql_query("SELECT * FROM orders WHERE id_pembeli='$p[id_pembeli]' AND status_order = 'Komplain Selesai'"));
                       ?>
-                      <li><a href="?module=pembayaran">Menunggu Pembayaran (<?php echo"$total_1"; ?>)</a></li>
+                      <li><a href="?module=pembayaran">Pesanan Diproses (<?php echo"$total_1"; ?>)</a></li>
                       <li><a href="?module=pengiriman">Pengiriman (<?php echo"$total_2"; ?>)</a></li>                    
                       <li><a href="?module=komplain">Komplain (<?php echo"$total_4"; ?>)</a></li> 
                     </ul>
