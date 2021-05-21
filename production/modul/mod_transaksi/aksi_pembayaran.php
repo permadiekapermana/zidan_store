@@ -35,7 +35,7 @@ $jumlah        = $_POST['jumlah'];
   else{
   UploadBukti($nama_file_unik);
   $Q=mysql_query("INSERT INTO konfirm_bayar (no_invoice, tgl_bayar, bank_asal, nama_pemilik, jumlah, bukti_transfer) VALUES ('$no_invoice', '$tgl_bayar', '$bank_asal', '$nama_pemilik', '$jumlah', '$nama_file_unik')");
-  mysql_query("UPDATE orders SET status_order='Menunggu Verifikasi Admin', tgl_bayar='$tgl_bayar' WHERE no_invoice='$no_invoice'");
+  mysql_query("UPDATE orders SET status_order='Baru', tgl_bayar='$tgl_bayar' WHERE no_invoice='$no_invoice'");
   
   if($Q) {
     header('location:../../media.php?module='.$module);

@@ -65,7 +65,7 @@ echo "<div class='clearfix'></div>
             $tampil = mysql_query("SELECT * FROM orders WHERE id_penjual='$p[id_penjual]' AND status_order = 'Pesanan Diproses' ORDER BY no_invoice ASC");
             }
             else{
-              $tampil = mysql_query("SELECT * FROM orders INNER JOIN pembeli ON orders.id_pembeli=pembeli.id_pembeli WHERE email='$_SESSION[email]' AND status_order = 'Menunggu Verifikasi Admin' OR status_order = 'Pesanan Diproses' ORDER BY no_invoice ASC");
+              $tampil = mysql_query("SELECT * FROM orders INNER JOIN pembeli ON orders.id_pembeli=pembeli.id_pembeli WHERE email='$_SESSION[email]' AND status_order = 'Baru' OR status_order = 'Pesanan Diproses' ORDER BY no_invoice ASC");
             }
   
     $no = 1;

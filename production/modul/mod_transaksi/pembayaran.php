@@ -61,10 +61,10 @@ echo "<div class='clearfix'></div>
             if($_SESSION['hak_akses']=='Pembeli'){
             $pembeli  = mysql_query("SELECT * FROM pembeli WHERE email='$_SESSION[email]'");
             $p        = mysql_fetch_array($pembeli);
-            $tampil = mysql_query("SELECT DISTINCT(no_invoice), status_order, tgl_order, tgl_bayar FROM orders WHERE id_pembeli='$p[id_pembeli]' AND status_order = 'Menunggu Pembayaran' OR status_order = 'Menunggu Verifikasi Admin' OR status_order = 'Pesanan Diproses' ORDER BY no_invoice ASC");
+            $tampil = mysql_query("SELECT DISTINCT(no_invoice), status_order, tgl_order, tgl_bayar FROM orders WHERE id_pembeli='$p[id_pembeli]' AND status_order = 'Menunggu Pembayaran' OR status_order = 'Baru' OR status_order = 'Pesanan Diproses' ORDER BY no_invoice ASC");
             }
             else{
-              $tampil = mysql_query("SELECT * FROM orders WHERE status_order = 'Menunggu Verifikasi Admin' OR status_order = 'Pesanan Diproses' ORDER BY no_invoice ASC");
+              $tampil = mysql_query("SELECT * FROM orders WHERE status_order = 'Baru' OR status_order = 'Pesanan Diproses' ORDER BY no_invoice ASC");
             }
   
     $no = 1;
@@ -99,7 +99,7 @@ echo "<div class='clearfix'></div>
                 if($_SESSION['hak_akses']=='Pembeli'){
                 echo"
                 <a href='?module=detail&id=$r[no_invoice]' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i> Detail</a>";
-                }elseif($_SESSION['hak_akses']=='Admin' AND $r['status_order']=='Menunggu Verifikasi Admin'){
+                }elseif($_SESSION['hak_akses']=='Admin' AND $r['status_order']=='Baru'){
                 echo"
                 <a href='?module=detail&id=$r[no_invoice]' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i> Detail</a>
                 <a href='$aksi?module=pembayaran&act=terima&id=$r[no_invoice]' class='btn btn-success btn-xs' onClick=\"return confirm('Yakin ingin Verifikasi pembelian ? Pesanan akan diteruskan ke penjual !')\"onClick=\"return confirm('Yakin ingin terima pembelian ? Data yang diterima tidak dapat diubah !')\"><i class='fa fa-check'></i> Verifikasi</a>
