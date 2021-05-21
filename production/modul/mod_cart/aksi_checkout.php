@@ -63,18 +63,16 @@ if ($module=='checkout' AND $act=='input'){
       // $tahun_i = date('Ymd');
       // $kode_jadi_i = "INV$tahun_i$bikin_kode_i";
 
-    mysql_query("INSERT INTO orders (no_invoice, status_order, tgl_order, total_tagihan, jam_order, nama_penerima, no_hp, alamat, id_kota, pesan, id_pembeli, id_penjual) VALUES ('$kode_jadi_i', '$status_order', '$tgl_skrg', '$total_tagihan', '$jam_skrg', '$nama_penerima', '$no_penerima', '$alamat', '$id_kota', '$pesan', '$id_pembeli', '$id_penjual[$i]')");   
+    mysql_query("INSERT INTO orders (no_invoice, status_order, tgl_order, total_tagihan, jam_order, nama_penerima, no_hp, alamat, id_kota, pesan, id_pembeli, id_penjual) VALUES ('$kode_jadi_i', '$status_order', '$tgl_skrg', '$total_tagihan', '$jam_skrg', '$nama_penerima', '$no_penerima', '$alamat', '$id_kota', '$pesan', '$id_pembeli', '$id_penjual[$i]')");
 
     $tampil4 = mysql_query("SELECT * FROM keranjang INNER JOIN produk ON keranjang.id_produk = produk.id_produk where id_pembeli='$id_pembeli' AND id_penjual='$id_penjual[$i]'");
     $r4=mysql_fetch_array($tampil4);    
     $jml3=count($r4['id_produk']);
 
-    for ($j=1; $j < $jml2; $j++){
-      mysql_query("INSERT INTO orders_detail (no_invoice, id_produk,  jumlah) VALUES ('$kode_jadi_i', '$id_produk[$j]', '$jumlah[$j]')");
-      mysql_query("DELETE FROM keranjang WHERE id_pembeli = '$id_pembeli' AND id_produk = '$id_produk[$j]' AND jumlah = '$jumlah[$j]'");
-      
-      
-    }
+    // for ($j=1; $j < $jml2; $j++){
+    //   mysql_query("INSERT INTO orders_detail (no_invoice, id_produk,  jumlah) VALUES ('$kode_jadi_i', '$id_produk[$j]', '$jumlah[$j]')");
+    //   mysql_query("DELETE FROM keranjang WHERE id_pembeli = '$id_pembeli' AND id_produk = '$id_produk[$j]' AND jumlah = '$jumlah[$j]'");
+    // }
 
     for ($j=0; $j < $jml2; $j++){
       mysql_query("INSERT INTO orders_detail (no_invoice, id_produk,  jumlah) VALUES ('$kode_jadi_i', '$id_produk[$j]', '$jumlah[$j]')");
